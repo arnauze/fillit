@@ -17,7 +17,7 @@ int					g_size;
 /*
 **	This function reads from the file and stores each tetrimino in a node of a linked list.
 **	The function check_piece makes sure the tetrimino is valid while get_properties gets
-**	the width and height of the tetrimino.
+**	the width and height of the tetrimino and move it to the top left corner.
 */
 
 void				get_tetriminos(char *argv, t_tetriminos **head)

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int				ft_is_operation(char c)
+int			ft_is_operation(char c)
 {
 	if (c == '-' || c == '+' || c == '*'
 		|| c == '/' || c == '%')

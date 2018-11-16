@@ -5,26 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 16:01:37 by amagnan           #+#    #+#             */
-/*   Updated: 2018/10/24 16:01:38 by amagnan          ###   ########.fr       */
+/*   Created: 2018/11/05 12:53:59 by amagnan           #+#    #+#             */
+/*   Updated: 2018/11/05 12:53:59 by amagnan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void			ft_mapdel(char **map)
+void			ft_mapdel(char **str)
 {
 	int			i;
 
 	i = -1;
-	if (map)
-	{
-		while (map[++i])
-		{
-			free(map[i]);
-			map[i] = NULL;
-		}
-		free(map);
-		map = NULL;
-	}
+	while (str[++i])
+		ft_strdel(&str[i]);
+	free(str);
+	str = NULL;
 }

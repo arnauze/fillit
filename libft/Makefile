@@ -67,9 +67,14 @@ SOURCES = ft_atoi.c\
 		  ft_strndup_from.c\
 		  ft_strcpy_from_to.c\
 		  ft_strdup_from.c\
-		  ft_isoperation.c\
+		  ft_is_operation.c\
 		  ft_realloc.c\
 		  ft_clean_str.c\
+		  ft_itoa_base.c\
+		  ft_itoa_base_long.c\
+		  get_next_line.c\
+		  ft_mapdel.c\
+		  ft_mapalloc.c
 
 
 FLAGS = -Wall -Werror -Wextra -g

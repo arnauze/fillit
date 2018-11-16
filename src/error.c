@@ -68,7 +68,8 @@ void			check_piece(char **grid)
 }
 
 /*
-**	Get height and width of the current tetrimino
+**	Calculate distance from top left of the piece, calculate
+**	the size of the tetromino and then move it in the top left corner.
 */
 
 void			get_properties(t_tetriminos **tetr)

@@ -12,31 +12,29 @@
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+char	*ft_strtrim(char const *s)
 {
 	int		i;
-	int		x;
 	int		len;
-	char	*tmp;
+	char	*str;
 
-	i = 0;
-	x = 0;
-	len = ft_strlen(s) - 1;
-	while (s[i] == 32 || s[i] == '\n' || s[i] == '\t')
-		i++;
-	if (i >= len)
-		return ("");
-	while (s[len] == 32 || s[len] == '\n' || s[len] == '\t')
-		len--;
-	if ((i == 0 && ft_strlen(s) == 0) || len == 0)
-		return ("");
-	if (!(tmp = (char *)malloc(sizeof(char) * (len - i) + 2)))
+	if (s == NULL)
 		return (NULL);
-	while (s[i + x] && (i + x) <= len)
-	{
-		tmp[x] = s[i + x];
-		x++;
-	}
-	tmp[x] = '\0';
-	return (tmp);
+	len = ft_strlen(s);
+	while (s[len - 1] == ' ' || s[len - 1] == '\t' || s[len - 1] == '\n')
+		len--;
+	i = -1;
+	while (s[++i] == ' ' || s[i] == '\t' || s[i] == '\n')
+		len--;
+	if (len <= 0)
+		len = 0;
+	str = (char*)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	s += i;
+	i = -1;
+	while (++i < len)
+		str[i] = *s++;
+	str[i] = '\0';
+	return (str);
 }

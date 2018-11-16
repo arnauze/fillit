@@ -16,9 +16,12 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # include <stdarg.h>
 # include <stdint.h>
+
+# define BUFF_SIZE	42
 
 typedef struct		s_list
 {
@@ -83,15 +86,17 @@ void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
+t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char				*ft_strdup(const char *s1);
 
 char				*ft_itoa_base(int64_t value, int base, const char *basetab);
 void				ft_putstr0x(char *str);
 char				*ft_itoa_base_long(uint32_t value, int base,
 	const char *basetab);
+int					b_printf(char *format, ...);
 int					ft_str_is_print(char *str);
 char				*ft_strndup(const char *s, int n);
-char				*ft_strrevdup(char *str);
+char				*ft_strrevdup(const char *str);
 void				ft_strswap(char **str1, char **str2);
 char				*ft_strcat_from(char *str1, char *str2, int i);
 char				*ft_strndup_from(char *str, int a, int b);
@@ -100,6 +105,8 @@ char				*ft_strdup_from(char *str, int a);
 int					ft_is_operation(char c);
 void				*ft_realloc(void *ptr, size_t size);
 char				*ft_clean_str(char *str);
-void				ft_mapdel(char **map);
+int					get_next_line(const int fd, char **line);
+void				ft_mapdel(char **str);
+char				**ft_mapalloc(int i, int j);
 
 #endif

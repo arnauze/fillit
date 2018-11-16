@@ -12,8 +12,6 @@
 
 #include "../header/fillit.h"
 
-int						g_size;
-
 /*
 **	This file is a basic list handler file.
 */
