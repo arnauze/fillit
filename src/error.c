@@ -13,10 +13,11 @@
 #include "../header/fillit.h"
 
 /*
-**	Returns the number of links a coordinate has. One link is when '#' is next to another '#'
+**	Returns the number of links a coordinate has.
+**	One link is when '#' is next to another '#'
 */
 
-int				get_links(char **grid, int i, int j)
+int					get_links(char **grid, int i, int j)
 {
 	int			n;
 
@@ -33,21 +34,23 @@ int				get_links(char **grid, int i, int j)
 }
 
 /*
-**	This function checks for errors. If the tetromino has a different char than '#' or '.',
-**	if it has 4 '#' and if there is 6 or 8 links (a valid tetromino will always have 6 or 8 links)
+**	This function checks for errors. If the
+**	tetromino has a different char than '#' or '.',
+**	if it has 4 '#' and if there is 6 or 8 links (a
+**	valid tetromino will always have 6 or 8 links)
 */
 
-void			check_piece(char **grid)
+void				check_piece(char **grid)
 {
-	int			i;
-	int			j;
-	int			links;
-	int			count;
+	int				i;
+	int				j;
+	int				links;
+	int				count;
 
-	i = 0;
+	i = -1;
 	count = 0;
 	links = 0;
-	while (grid[i])
+	while (grid[++i])
 	{
 		j = 0;
 		while (grid[i][j])
@@ -61,55 +64,17 @@ void			check_piece(char **grid)
 			}
 			j++;
 		}
-		i++;
 	}
 	if (count != 4 || (links != 6 && links != 8))
 		ft_error("ERROR");
 }
 
 /*
-**	Calculate distance from top left of the piece, calculate
-**	the size of the tetromino and then move it in the top left corner.
+**	Function we call whenever we want to
+**	output and error message and exit the function.
 */
 
-void			get_properties(t_tetriminos **tetr)
-{
-	int			i;
-	int			j;
-	int			min_width;
-
-	i = 0;
-	min_width = 4;
-	while ((*tetr)->piece[i])
-	{
-		if (ft_strchr((*tetr)->piece[i], '#'))
-			break ;
-		i++;
-	}
-	(*tetr)->dist_top = i;
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#')
-				break ;
-			j++;
-		}
-		if (min_width > j)
-			min_width = j;
-		i++;
-	}
-	(*tetr)->dist_side = min_width;
-	prepare_tetriminos(tetr);
-}
-
-/*
-**	Function we call whenever we want to output and error message and exit the function.
-*/
-
-void			ft_error(char *str)
+void				ft_error(char *str)
 {
 	if (ft_strcmp("USAGE", str) == 0)
 	{

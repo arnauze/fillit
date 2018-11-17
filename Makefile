@@ -1,10 +1,14 @@
-OBJECTS = *.o
+OBJECTS = *.o\
+			libft/*.o
+			
 SRC = libft/*.c\
 		src/error.c\
 		src/main.c\
 		src/list.c\
 		src/algorithm.c\
-		src/tetriminos.c
+		src/tetriminos.c\
+		src/helper_functions.c\
+		src/map.c
 
 FLAGS = -Wall -Wextra -Werror 
 NAME = fillit

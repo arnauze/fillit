@@ -12,46 +12,39 @@
 
 #include "../header/fillit.h"
 
-/*
-**	Creates an empty map of size SIZExSIZE
-*/
-
-t_map		*make_map(int size)
+int			get_offset(t_tetriminos **tetr)
 {
-	t_map	*map;
-	int		i;
-	int		j;
+	int			i;
+	int			j;
+	int			offset;
+	int			min_offset;
 
-	i = 0;
-	if (!(map = (t_map*)malloc(sizeof(t_map))))
-		return (NULL);
-	map->grid = ft_mapalloc(size, size);
-	while (i < size)
+	i = -1;
+	min_offset = 4;
+	while ((*tetr)->piece[++i])
 	{
-		j = 0;
-		while (j < size)
+		j = -1;
+		offset = 0;
+		while ((*tetr)->piece[i][++j])
 		{
-			map->grid[i][j] = '.';
-			j++;
+			if ((*tetr)->piece[i][j] == '#')
+				break ;
+			else
+				offset++;
 		}
-		i++;
+		if (offset < min_offset)
+			min_offset = offset;
 	}
-	map->grid[i] = NULL;
-	map->size = size;
-	return (map);
-}
-
-void		del_map(t_map **map)
-{
-	ft_mapdel((*map)->grid);
-	free(*map);
-	*map = NULL;
+	return (min_offset);
 }
 
 /*
-**	That is the function that solves the puzzle. We create a map 4x4 and try to fill it with the tetriminos
-**	in the fill_grid function. If we can fit all the pieces in the map, we display the map, free the memory
-**	and then exit. If we can't fit all the pieces, we erase the map, and recursively call the algortihm, which
+**	That is the function that solves the puzzle. We create
+**	a map 4x4 and try to fill it with the tetriminos
+**	in the fill_grid function. If we can fit all the pieces
+**	in the map, we display the map, free the memory
+**	and then exit. If we can't fit all the pieces, we erase
+**	the map, and recursively call the algortihm, which
 **	will try again but with a larger map.
 */
 
@@ -74,30 +67,15 @@ void		algorithm(t_tetriminos *head)
 	}
 }
 
-void		clean_map(t_map **map, t_tetriminos *node)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while ((*map)->grid[i])
-	{
-		j = 0;
-		while ((*map)->grid[i][j])
-		{
-			if ((*map)->grid[i][j] == node->letter)
-				(*map)->grid[i][j] = '.';
-			j++;
-		}
-		i++;
-	}
-}
-
 /*
-**	For each position in the map, we try to put the current tetrimino. If it fits somewhere, we recursively
-**	call the function with the next tetromino. If there's no tetromino, it means we reached the end of the
-**	list and that all the tetrominos should be in the map. If we reach the end of the function, it means
-**	that we can't fit the tetrominos in the actual map. It then returns 0 and will try again with a larger map.
+**	For each position in the map, we try to put the
+**	current tetrimino. If it fits somewhere, we recursively
+**	call the function with the next tetromino. If
+**	there's no tetromino, it means we reached the end of the
+**	list and that all the tetrominos should be in
+**	the map. If we reach the end of the function, it means
+**	that we can't fit the tetrominos in the actual
+**	map. It then returns 0 and will try again with a larger map.
 */
 
 int			fill_grid(t_map *map, t_tetriminos *node)
@@ -122,9 +100,12 @@ int			fill_grid(t_map *map, t_tetriminos *node)
 }
 
 /*
-**	In this function first we make sure we can fit the entire tetromino in the map at the current location.
-**	If we can't the function will return 0 and we will try again at the next coordinate. If we can we call
-**	put_piece, which is going to add the tetromino on the map.
+**	In this function first we make sure we can fit the
+**	entire tetromino in the map at the current location.
+**	If we can't the function will return 0 and we will
+**	try again at the next coordinate. If we can we call
+**	put_piece, which is going to add the tetromino on
+**	the map.
 */
 
 int			try_piece(t_map *map, t_tetriminos *node)

@@ -12,64 +12,6 @@
 
 #include "../header/fillit.h"
 
-void			get_tetri_size(t_tetriminos **tetr)
-{
-	int			i;
-	int			j;
-	int			h;
-	int			w;
-	int			max_w;
-
-	max_w = 0;
-	h = 0;
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		w = 0;
-		if (ft_strchr((*tetr)->piece[i], '#'))
-			h++;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#')
-				w++;
-			j++;
-		}
-		if (w > max_w)
-			max_w = w;
-		i++;
-	}
-	(*tetr)->height = h;
-	(*tetr)->width = max_w;
-}
-
-/*
-**	Move the tetriminos to the upper left corner
-*/
-
-void			prepare_tetriminos(t_tetriminos **tetr)
-{
-	int			i;
-	int			j;
-
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#')
-			{
-				(*tetr)->piece[i - (*tetr)->dist_top][j - (*tetr)->dist_side] = '#';
-				(*tetr)->piece[i][j] = '.';
-			}
-			j++;
-		}
-		i++;
-	}
-	get_tetri_size(tetr);
-}
-
 /*
 **	Moves the tetrimino one to the right
 */
@@ -96,6 +38,35 @@ char			**new_tetri(void)
 	return (new);
 }
 
+int				check_if_ok(t_tetriminos **tetr, int x)
+{
+	int			i;
+	int			j;
+
+	i = -1;
+	if (x == 1)
+	{
+		while ((*tetr)->piece[++i])
+		{
+			j = -1;
+			while ((*tetr)->piece[i][++j])
+				if ((*tetr)->piece[i][j] == '#' && j == g_size - 1)
+					return (0);
+		}
+	}
+	else
+	{
+		while ((*tetr)->piece[++i])
+		{
+			j = -1;
+			while ((*tetr)->piece[i][++j])
+				if ((*tetr)->piece[i][j] == '#' && i == g_size - 1)
+					return (0);
+		}
+	}
+	return (1);
+}
+
 int				move_right(t_tetriminos **tetr)
 {
 	int			i;
@@ -103,32 +74,20 @@ int				move_right(t_tetriminos **tetr)
 	char		**new_piece;
 
 	new_piece = new_tetri();
-	i = 0;
-	while ((*tetr)->piece[i])
+	if (check_if_ok(tetr, 1) == 0)
+		return (0);
+	i = -1;
+	while ((*tetr)->piece[++i])
 	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#' && j == g_size - 1)
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
+		j = -1;
+		while ((*tetr)->piece[i][++j])
 		{
 			if ((*tetr)->piece[i][j] == '#')
 			{
 				new_piece[i][j + 1] = '#';
 				(*tetr)->piece[i][j] = '.';
 			}
-			j++;
 		}
-		i++;
 	}
 	ft_mapdel((*tetr)->piece);
 	(*tetr)->piece = new_piece;
@@ -143,55 +102,25 @@ int				move_down(t_tetriminos **tetr)
 {
 	int			i;
 	int			j;
-	int			offset;
 	int			min_offset;
 	char		**new_piece;
 
 	new_piece = new_tetri();
-	i = 0;
-	min_offset = 4;
-	while ((*tetr)->piece[i])
+	if (check_if_ok(tetr, 0) == 0)
+		return (0);
+	min_offset = get_offset(tetr);
+	i = -1;
+	while ((*tetr)->piece[++i])
 	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#' && i == g_size - 1)
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		offset = 0;
-		while ((*tetr)->piece[i][j])
-		{
-			if ((*tetr)->piece[i][j] == '#')
-				break ;
-			else
-				offset++;
-			j++;
-		}
-		if (offset < min_offset)
-			min_offset = offset;
-		i++;
-	}
-	i = 0;
-	while ((*tetr)->piece[i])
-	{
-		j = 0;
-		while ((*tetr)->piece[i][j])
+		j = -1;
+		while ((*tetr)->piece[i][++j])
 		{
 			if ((*tetr)->piece[i][j] == '#')
 			{
 				new_piece[i + 1][j - min_offset] = '#';
 				(*tetr)->piece[i][j] = '.';
 			}
-			j++;
 		}
-		i++;
 	}
 	ft_mapdel((*tetr)->piece);
 	(*tetr)->piece = new_piece;
